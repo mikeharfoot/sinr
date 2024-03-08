@@ -17,7 +17,7 @@ def get_default_params_train(overrides={}):
     '''
     misc
     '''
-    params['device'] = 'cuda' # cuda, cpu
+    params['device'] = 'cpu' # cuda, cpu
     params['save_base'] = './experiments/'
     params['experiment_name'] = 'demo'
     params['timestamp'] = False
@@ -30,7 +30,7 @@ def get_default_params_train(overrides={}):
     params['hard_cap_num_per_class'] = -1 # -1 for no hard capping
     params['aux_species_seed'] = 8099
     params['num_aux_species'] = 0 # for snt_birds case, how many other species to add in
-
+    params['rarefication'] = False #Should species be rarefied
     '''
     data files
     '''

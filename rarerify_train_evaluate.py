@@ -5,16 +5,22 @@ import torch
 import train
 import eval
 
+
+# Read in the inat data and then rarerify the data associated with a set of species
+
+
+
+
 train_params = {}
 
-train_params['experiment_name'] = 'rarefy_snt' # This will be the name of the directory where results for this run are saved.
+train_params['experiment_name'] = 'test_all_training' # This will be the name of the directory where results for this run are saved.
 
 '''
 species_set
 - Which set of species to train on.
 - Valid values: 'all', 'snt_birds'
 '''
-train_params['species_set'] = 'snt_birds'
+train_params['species_set'] = 'all'
 
 '''
 hard_cap_num_per_class
@@ -43,12 +49,6 @@ loss
 - Valid values: 'an_full', 'an_slds', 'an_ssdl', 'an_full_me', 'an_slds_me', 'an_ssdl_me'
 '''
 train_params['loss'] = 'an_full'
-
-'''
-Should a set of snt species be rarefied?
-- boolean
-'''
-train_params['rarefication'] = True #should the snt birds be rarefied?
 
 # train:
 train.launch_training_run(train_params)

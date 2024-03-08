@@ -132,6 +132,7 @@ def choose_aux_species(current_species, num_aux_species, aux_species_seed, taxa_
     return aux_species
 
 def get_taxa_of_interest(species_set='all', num_aux_species=0, aux_species_seed=123, taxa_file=None, taxa_file_snt=None):
+    print(species_set)
     if species_set == 'all':
         return None
     if species_set == 'snt_birds':
@@ -163,6 +164,26 @@ def get_idx_subsample_observations(labels, hard_cap=-1, hard_cap_seed=123):
     print(f'final training set size: {len(idx_ss)}')
     return idx_ss
 
+def rarefy_training_data(locs,labels, taxa_file_rarefy, rarefy_to = 50,):
+
+    #rare_spps = np.random.choice(labels,size = rarefy_to, replace=False)
+
+    with open(taxa_file_rarefy, 'r') as f: #
+        taxa_subsets = json.load(f)
+    rare_spps = list(taxa_subsets['rarefy_snt_birds'])
+
+    labels_rare = labels.copy()
+    locs_rare = locs.copy()
+
+    for s in rare_spps:
+        idx = np.where(labels_rare == s)[0]
+        del_idx= (np.random.choice(idx,size  = len(idx)-50, replace = False))
+        locs_rare = np.delete(locs_rare,del_idx,axis=0)
+        labels_rare = np.delete(labels_rare, del_idx)
+    
+    return locs_rare, labels_rare
+
+
 def get_train_data(params):
     with open('paths.json', 'r') as f:
         paths = json.load(f)
@@ -174,6 +195,10 @@ def get_train_data(params):
     taxa_of_interest = get_taxa_of_interest(params['species_set'], params['num_aux_species'], params['aux_species_seed'], params['taxa_file'], taxa_file_snt)
 
     locs, labels, _, _, _, _ = load_inat_data(obs_file, taxa_of_interest)
+
+    if params['rarefication']:
+        locs, labels = rarefy_training_data(locs, labels,taxa_file_snt)
+
     unique_taxa, class_ids = np.unique(labels, return_inverse=True)
     class_to_taxa = unique_taxa.tolist()
 

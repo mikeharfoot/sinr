@@ -5,5 +5,6 @@
     "geo_prior": "data/eval/geo_prior/",
     "snt": "data/eval/snt/", 
     "iucn": "data/eval/iucn/", 
-    "geo_feature": "data/eval/geo_feature/"
+    "geo_feature": "data/eval/geo_feature/",
+    "rarefied": "data/rarefied/"
 } 
